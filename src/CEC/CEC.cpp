@@ -133,7 +133,7 @@ void CEC_LogicalDevice::OnTransmitComplete(bool success)
 		while (!ProcessStateMachine(&success))
 			;
 	}
-        else
+        //else
           //DbgPrint("Transmit: %d\n", success);
 }
 
