@@ -1,7 +1,7 @@
 #ifndef CEClient_H__
 #define CEClient_H__
 
-#include "CEC_Device.h"
+#include "CEC/CEC_Device.h"
 
 class CEClient : public CEC_Device {
 
