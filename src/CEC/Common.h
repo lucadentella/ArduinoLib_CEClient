@@ -30,17 +30,6 @@ void DbgPrint(const char* fmt, ...);
 	#define NULL 0
 #endif
 
-/*
-static const uint32_t cyclesPerUS = (SystemCoreClock / 1000000ul);
-static inline unsigned long micros() {
-    bool ready = false;
-    if (!ready) {
-        CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-        DWT->CTRL |= 1;
-        ready = true;
-    }
-    return DWT->CYCCNT / cyclesPerUS; // TODO: handle wraparound
-}*/
 #else
 
 #define ASSERT(x) ((void)0)
