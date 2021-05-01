@@ -52,6 +52,14 @@ void CEC_Device::OnReceive(int source, int dest, unsigned char* buffer, int coun
   for (int i = 0; i < count; i++)
     DbgPrint(":%02X", buffer[i]);
   DbgPrint("\n");
+  if (!MonitorMode && dest == _logicalAddress && count == 1 && buffer[0] == 0x83) {
+      uint8 buffer[4];
+      buffer[0] = 0x84;
+      buffer[1] = _physicalAddress >> 8;
+      buffer[2] = _physicalAddress;
+      buffer[3] = _deviceType;
+      TransmitFrame(0xF, buffer, 4);
+  } 
 }
 
 bool CEC_Device::LineState()
