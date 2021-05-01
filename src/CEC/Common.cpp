@@ -28,11 +28,12 @@ void DbgPrint(const char* fmt, ...)
 
 #else
 
-#include <avr/io.h>
-#include <avr/pgmspace.h>
+//#include <avr/io.h>
+//#include <avr/pgmspace.h>
 #include <stdlib.h>
 #include <string.h>
-#include <util/delay.h>
+#include <stdarg.h>
+//#include <util/delay.h>
 #include <Arduino.h>
 
 void DbgPrint(const char* fmt, ...)
