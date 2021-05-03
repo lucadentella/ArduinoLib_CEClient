@@ -9,8 +9,7 @@ typedef void (*OnReceiveCallbackFunction)(int, int, unsigned char*, int);
 typedef void (*OnTransmitCompleteCallbackFunction)(bool);
 
 public:
-
-    CEClient(int physicalAddress, int inputPin, int outputPin);
+    CEClient(int physicalAddress, int inputPin, int outputPin=-1);
     void begin(CEC_DEVICE_TYPE type = CEC_LogicalDevice::CDT_PLAYBACK_DEVICE);
     bool isReady();
     bool write(int targetAddress, unsigned char* buffer, int count);
@@ -22,7 +21,6 @@ public:
     void run();
 
 private:
-
     void OnTransmitComplete(bool);
     void OnReceive(int source, int dest, unsigned char* buffer, int count);
     void OnReady();

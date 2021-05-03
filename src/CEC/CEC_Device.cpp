@@ -1,6 +1,15 @@
 #include "CEC_Device.h"
 #include <Arduino.h>
 
+#if defined(ARDUINO_ARCH_STM32F1) || defined(ARDUINO_ARCH_STM32F2) || defined(ARDUINO_ARCH_STM32F3) || defined(ARDUINO_ARCH_STM32F4)
+# define STM32
+# define CEC_HIGH 1
+# define CEC_LOW 0
+#else
+# define CEC_HIGH LOW
+# define CEC_LOW HIGH
+#endif
+
 CEC_Device::CEC_Device(int physicalAddress, int in_line, int out_line)
 : CEC_LogicalDevice(physicalAddress)
 , _isrTriggered(false)
@@ -12,10 +21,15 @@ CEC_Device::CEC_Device(int physicalAddress, int in_line, int out_line)
 
 void CEC_Device::Initialize(CEC_DEVICE_TYPE type)
 {
+#ifdef STM32
+  gpio_set_mode(digitalPinToPort(_in_line), PIN_MAP[_in_line].gpio_bit, GPIO_OUTPUT_OD); // set open drain output
+  _out_line = _in_line;
+#else
   pinMode(_out_line, OUTPUT);
   pinMode( _in_line,  INPUT);
+#endif  
 
-  digitalWrite(_out_line, LOW);
+  digitalWrite(_out_line, CEC_HIGH);
   delay(200);
 
   CEC_LogicalDevice::Initialize(type);
@@ -42,12 +56,12 @@ void CEC_Device::OnReceive(int source, int dest, unsigned char* buffer, int coun
 bool CEC_Device::LineState()
 {
   int state = digitalRead(_in_line);
-  return state == LOW;
+  return state == CEC_HIGH;
 }
 
 void CEC_Device::SetLineState(bool state)
 {
-  digitalWrite(_out_line, state?LOW:HIGH);
+  digitalWrite(_out_line, state?CEC_HIGH:CEC_LOW);
   // give enough time for the line to settle before sampling
   // it
   delayMicroseconds(50);

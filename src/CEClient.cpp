@@ -2,7 +2,7 @@
 
 // create a new instance of CEClient
 CEClient::CEClient(int physicalAddress, int inputPin, int outputPin) : 
-    CEC_Device(physicalAddress, inputPin, outputPin) {
+    CEC_Device(physicalAddress, inputPin, outputPin<0 ? inputPin : outputPin) {
 
     _ready = false;
 }
@@ -79,9 +79,17 @@ void CEClient::OnReceive(int source, int dest, unsigned char* buffer, int count)
 
     if(_onReceiveCallback)
         _onReceiveCallback(source, dest, buffer, count);        
-
     else
         CEC_Device::OnReceive(source, dest, buffer, count);
+    
+    if (!MonitorMode && dest == _logicalAddress && count == 1 && buffer[0] == 0x83) {
+      unsigned char buffer[4];
+      buffer[0] = 0x84;
+      buffer[1] = _physicalAddress >> 8;
+      buffer[2] = _physicalAddress;
+      buffer[3] = _deviceType;
+      TransmitFrame(0xF, buffer, 4);
+    }  
 }
 
 // OnReady redefinition, to save the current status

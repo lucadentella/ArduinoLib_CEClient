@@ -10,7 +10,7 @@ public:
 		CDT_TV,
 		CDT_RECORDING_DEVICE,
 		CDT_PLAYBACK_DEVICE,
-		CDT_TUNER,
+		CDT_TUNER,	
 		CDT_AUDIO_SYSTEM,
 		CDT_OTHER,				// Not a real CEC type..
 	} CEC_DEVICE_TYPE;
@@ -67,7 +67,8 @@ private:
 	typedef enum {
 	} CEC_TERTIARY_STATE;
 
-protected:
+public:
+//protected:
 	static int _validLogicalAddresses[6][5];
 	int _logicalAddress;
 	int _physicalAddress;
