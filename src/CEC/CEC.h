@@ -9,10 +9,10 @@ public:
 	typedef enum {
 		CDT_TV,
 		CDT_RECORDING_DEVICE,
-		CDT_PLAYBACK_DEVICE,
-		CDT_TUNER,	
-		CDT_AUDIO_SYSTEM,
 		CDT_OTHER,				// Not a real CEC type..
+		CDT_TUNER,	
+		CDT_PLAYBACK_DEVICE,
+		CDT_AUDIO_SYSTEM,
 	} CEC_DEVICE_TYPE;
 
 public:
